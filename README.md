@@ -65,26 +65,61 @@ end Nor_Flash_Types;
 ```ada
 generic
    type Device is limited private;
-   with procedure Bus_Command (Dev : in out Device; Cmd : MT.UInt8);
-   with procedure Bus_Command_Address (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address);
-   with procedure Bus_Read_Status (Dev : in out Device; Status : out MT.UInt8);
-   with procedure Bus_Command_Read (Dev : in out Device; Cmd : MT.UInt8; Data : out Storage_Array);
-   with procedure Bus_Write (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address;
-                             Dummy_Cycles : Natural; Data : Storage_Array);
-   with procedure Bus_Read (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address;
-                            Dummy_Cycles : Natural; Data : out Storage_Array);
-   with function Driver_Config (Dev : Device) return Nor_Flash_Types.Nor_Config;
-   with function Driver_Read_SR2 (Dev : Device) return MT.UInt8;
-   with procedure Driver_Write_Status (Dev : in out Device; SR1 : MT.UInt8; SR2 : MT.UInt8);
+   
+   with procedure Bus_Command
+     (Dev : in out Device;
+      Cmd :        MT.UInt8);
+   
+   with procedure Bus_Command_Address
+     (Dev  : in out Device;
+      Cmd  :        MT.UInt8;
+      Addr :        Nor_Flash_Types.Nor_Address);
+   
+   with procedure Bus_Read_Status
+     (Dev    : in out Device;
+      Status :    out MT.UInt8);
+   
+   with procedure Bus_Command_Read
+     (Dev  : in out Device;
+      Cmd  :        MT.UInt8;
+      Data :    out Storage_Array);
+   
+   with procedure Bus_Write
+     (Dev          : in out Device;
+      Cmd          :        MT.UInt8;
+      Addr         :        Nor_Flash_Types.Nor_Address;
+      Dummy_Cycles :        Natural;
+      Data         :        Storage_Array);
+   
+   with procedure Bus_Read
+     (Dev          : in out Device;
+      Cmd          :        MT.UInt8;
+      Addr         :        Nor_Flash_Types.Nor_Address;
+      Dummy_Cycles :        Natural;
+      Data         :    out Storage_Array);
+   
+   with function Driver_Config
+     (Dev : Device) return Nor_Flash_Types.Nor_Config;
+   
+   with function Driver_Read_SR2
+     (Dev : Device) return MT.UInt8;
+   
+   with procedure Driver_Write_Status
+     (Dev : in out Device;
+      SR1 :        MT.UInt8;
+      SR2 :        MT.UInt8);
+
 package Nor_Flash_Interface is
-   procedure Open   (Dev : in out Device);
-   procedure Close  (Dev : in out Device);
-   procedure Reset  (Dev : in out Device);
+   procedure Open (Dev : in out Device);
+   procedure Close (Dev : in out Device);
+   procedure Reset (Dev : in out Device);
+   
    procedure Erase_Sector (Dev : in out Device; Idx : Nor_Flash_Types.Sector_Index);
-   procedure Erase_Block  (Dev : in out Device; Idx : Nor_Flash_Types.Block_Index);
-   procedure Erase_Chip   (Dev : in out Device);
+   procedure Erase_Block (Dev : in out Device; Idx : Nor_Flash_Types.Block_Index);
+   procedure Erase_Chip (Dev : in out Device);
+   
    procedure Write_Page (Dev : in out Device; Addr : Nor_Flash_Types.Nor_Address; Buf : Storage_Array);
-   procedure Read       (Dev : in out Device; Addr : Nor_Flash_Types.Nor_Address; Buf : out Storage_Array);
+   procedure Read (Dev : in out Device; Addr : Nor_Flash_Types.Nor_Address; Buf : out Storage_Array);
 end Nor_Flash_Interface;
 ```
 
@@ -92,22 +127,50 @@ end Nor_Flash_Interface;
 
 ### 1. Implement Hardware Driver Layer
 
-```ada
 package W25Q128_Dev is
    type Device is limited private;
+   
    function Make_Device (SPI_Bus : access SPI_Interface.Device) return Device;
    
-   procedure Bus_Command (Dev : in out Device; Cmd : MT.UInt8);
-   procedure Bus_Command_Address (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address);
-   procedure Bus_Read_Status (Dev : in out Device; Status : out MT.UInt8);
-   procedure Bus_Command_Read (Dev : in out Device; Cmd : MT.UInt8; Data : out Storage_Array);
-   procedure Bus_Write (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address;
-                        Dummy_Cycles : Natural; Data : Storage_Array);
-   procedure Bus_Read (Dev : in out Device; Cmd : MT.UInt8; Addr : Nor_Flash_Types.Nor_Address;
-                       Dummy_Cycles : Natural; Data : out Storage_Array);
+   procedure Bus_Command
+     (Dev : in out Device;
+      Cmd :        MT.UInt8);
+   
+   procedure Bus_Command_Address
+     (Dev  : in out Device;
+      Cmd  :        MT.UInt8;
+      Addr :        Nor_Flash_Types.Nor_Address);
+   
+   procedure Bus_Read_Status
+     (Dev    : in out Device;
+      Status :    out MT.UInt8);
+   
+   procedure Bus_Command_Read
+     (Dev  : in out Device;
+      Cmd  :        MT.UInt8;
+      Data :    out Storage_Array);
+   
+   procedure Bus_Write
+     (Dev          : in out Device;
+      Cmd          :        MT.UInt8;
+      Addr         :        Nor_Flash_Types.Nor_Address;
+      Dummy_Cycles :        Natural;
+      Data         :        Storage_Array);
+   
+   procedure Bus_Read
+     (Dev          : in out Device;
+      Cmd          :        MT.UInt8;
+      Addr         :        Nor_Flash_Types.Nor_Address;
+      Dummy_Cycles :        Natural;
+      Data         :    out Storage_Array);
+   
    function Driver_Config (Dev : Device) return Nor_Flash_Types.Nor_Config;
    function Driver_Read_SR2 (Dev : Device) return MT.UInt8;
-   procedure Driver_Write_Status (Dev : in out Device; SR1 : MT.UInt8; SR2 : MT.UInt8);
+   
+   procedure Driver_Write_Status
+     (Dev : in out Device;
+      SR1 :        MT.UInt8;
+      SR2 :        MT.UInt8);
 end W25Q128_Dev;
 ```
 
