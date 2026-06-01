@@ -45,10 +45,10 @@ package Nor_Flash_Types is
    type Sector_Index is new MT.UInt32;
    type Block_Index  is new MT.UInt32;
    type Page_Size    is new MT.UInt16;
-
+...
    type Transfer_Mode is (Single, Dual, Quad);
    type Erase_Granularity is (Chip, Sector_4K, Block_32K, Block_64K);
-
+...
    type Nor_Config is record
       Total_Size  : Nor_Size;
       Page_Size   : Nor_Flash_Types.Page_Size;
