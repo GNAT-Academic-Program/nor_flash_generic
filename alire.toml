@@ -12,4 +12,4 @@ tags = []
 machine_types = "*"
 
 [[pins]]
-machine_types = { path = "../machine_types" }
+machine_types = { url = "https://github.com/GNAT-Academic-Program/machine_types.git", branch = "main" }
