@@ -127,6 +127,7 @@ end Nor_Flash_Interface;
 
 ### 1. Implement Hardware Driver Layer
 
+```ada
 package W25Q128_Dev is
    type Device is limited private;
    
